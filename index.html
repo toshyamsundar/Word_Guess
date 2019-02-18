@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./assets/css/style.css" type="text/css" />
+    <script src="./assets/javascript/word.js" type="text/javascript"></script>
+    <title>Word Guess</title>
+  </head>
+  <body>
+    <div class="container-fluid bgimg">
+      <div class="jumbotron text-center bg-transparent bgheader"></div>
+      <div class="row text-center p-2 mt-5 mx-0">
+        <div class="column col-4">
+          <button class="btn bg-warning text p-2">WINS</button>
+        </div>
+        <div class="column col-4">
+          <button class="btn bg-warning text p-2">GUESSES LEFT</button>
+        </div>
+        <div class="column col-4">
+          <button class="btn bg-warning text p-2">LOSSES</button>
+        </div>
+      </div>
+      <div class="row text-center p-2 mx-0">
+        <div class="column col-4">
+          <button class="btn bg-warning text p-2" id="winCount">0</button>
+        </div>
+        <div class="column col-4">
+          <button class="btn bg-warning text p-2" id="guessCount">0</button>
+        </div>
+        <div class="column col-4">
+          <button class="btn bg-warning text p-2" id="lossCount">0</button>
+        </div>
+      </div>
+      <div class="row text-center mt-5 mx-0 pt-4">
+        <div class="column col-12" id="randWord">
+          <!-- <button class="btn bg-warning text p-2">GUESSES LEFT</button> -->
+        </div>
+      </div>
+      <div class="row text-center p-2 mt-5 mx-0">
+        <div class="column col-12">
+          <h2 class="text">Guess The Word</h2>
+        </div>
+      </div>
+      <div class="row text-center p-2 mt-3 mx-0">
+        <div class="column col-12">
+          <h5 class="text">Press any key to conitnue</h5>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
