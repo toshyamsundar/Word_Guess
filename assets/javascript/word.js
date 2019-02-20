@@ -122,22 +122,13 @@ $(document).ready(function() {
   var winCount = 0;
   var lossCount = 0;
   var guessCount = 10;
+  var correctGuessCount = 0;
   var guessChars = [];
   var randWord = "";
   var randWordIndex = -1;
   var startFlag = true;
 
   function genRandWord() {
-    winCount = 0;
-    lossCount = 0;
-    guessCount = 10;
-    guessChars = [];
-    $("#winCount").text(winCount);
-    $("#lossCount").text(lossCount);
-    $("#guessCount").text(guessCount);
-    $("#guessChars").empty();
-    $("#footer").empty();
-
     console.log("RandWords Length: " + randWords.length);
     randWordIndex = Math.floor(Math.random() * randWords.length + 1);
     console.log("randWordIndex: " + randWordIndex);
@@ -154,27 +145,81 @@ $(document).ready(function() {
     }
   }
 
+  function correctGuessKey(guessKey) {
+    $("#randWord")
+      .children("span")
+      .each(function() {
+        console.log("Attribute: " + $(this).attr("rand-letter"));
+        if ($(this).attr("rand-letter") === guessKey) {
+          $(this).text($(this).attr("rand-letter"));
+          correctGuessCount++;
+        }
+      });
+  }
+
+  function wrongGuessKey(guessKey) {
+    var spanElem = $("<span>");
+    spanElem.addClass("wrongLetter");
+    spanElem.text(guessKey);
+    $("#guessChars").append(spanElem);
+  }
+
+  function updateCounters() {
+    $("#winCount").text(winCount);
+    $("#lossCount").text(lossCount);
+    $("#guessCount").text(guessCount);
+  }
+
+  function resetGame() {
+    guessChars = [];
+    correctGuessCount = 0;
+    randWord = "";
+    randWordIndex = -1;
+
+    $("#guessChars").empty();
+    $("#footer").empty();
+    $("#randWord").empty();
+
+    if (!startFlag) {
+      $("#footer").text("Press any key to play again!");
+      startFlag = true;
+    }
+  }
+
   $(document).keyup(function(e) {
+    var guessKey = e.key.toUpperCase();
     if (startFlag) {
+      updateCounters();
+      resetGame();
       genRandWord();
       startFlag = false;
     } else {
-      if (randWord.includes(e.key.toUpperCase())) {
-        $("#randWord")
-          .children("span")
-          .each(function() {
-            console.log("Attribute: " + $(this).attr("rand-letter"));
-            console.log("Key Pressed: " + e.key.toUpperCase());
-            if ($(this).attr("rand-letter") === e.key.toUpperCase()) {
-              $(this).text($(this).attr("rand-letter"));
-            }
-          });
+      if (!guessChars.includes(guessKey)) {
+        if (randWord.includes(guessKey)) {
+          console.log("Correct Key: " + guessKey);
+          correctGuessKey(guessKey);
+
+          if (correctGuessCount === randWord.length) {
+            winCount++;
+            guessCount = 10;
+            updateCounters();
+            resetGame();
+          }
+        } else {
+          console.log("Wrong Key: " + guessKey);
+          wrongGuessKey(guessKey);
+          guessCount--;
+          updateCounters();
+          if (guessCount === 0) {
+            lossCount++;
+            guessCount = 10;
+            updateCounters();
+            resetGame();
+          }
+        }
+        guessChars.push(guessKey);
       } else {
-        console.log("Incorrect Key: " + e.key.toUpperCase());
-        var spanElem = $("<span>");
-        spanElem.addClass("wrongLetter");
-        spanElem.text(e.key.toUpperCase());
-        $("#guessChars").append(spanElem);
+        alert("The key " + guessKey + " has been pressed already");
       }
     }
   });

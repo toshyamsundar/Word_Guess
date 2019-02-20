@@ -3,7 +3,6 @@
 }
 
 .bgheader {
-  /* background: linear-gradient(rgba(255, 120, 110, 0.2), rgb(218, 139, 118)); */
   background: url("../images/word_bgimg2.jpeg");
 
   background-position: top 38% center;
@@ -28,7 +27,6 @@
   height: 2rem;
   padding: 1rem;
   margin: 2px;
-  /* border: 3px solid #ffc107; */
   border: 3px dashed rgb(131, 22, 14);
   font-size: 1rem;
   color: rgb(131, 22, 14);
@@ -38,7 +36,7 @@
 .wrongLetter {
   width: 2rem;
   height: 2rem;
-  padding: 1rem;
+  padding: 0.5rem;
   margin: 2px;
   border: 3px solid #ffc107;
   border-radius: 50%;
@@ -46,4 +44,5 @@
   color: rgb(131, 22, 14);
   font-weight: bold;
   background-color: #ffc107;
+  box-shadow: 1px 1px 1px rgb(131, 22, 14);
 }
