@@ -22,3 +22,28 @@
   background: linear-gradient(rgba(231, 227, 176, 0.5), rgba(190, 177, 134, 1));
   height: 100vh;
 }
+
+.letter {
+  width: 2rem;
+  height: 2rem;
+  padding: 1rem;
+  margin: 2px;
+  /* border: 3px solid #ffc107; */
+  border: 3px dashed rgb(131, 22, 14);
+  font-size: 1rem;
+  color: rgb(131, 22, 14);
+  font-weight: bold;
+}
+
+.wrongLetter {
+  width: 2rem;
+  height: 2rem;
+  padding: 1rem;
+  margin: 2px;
+  border: 3px solid #ffc107;
+  border-radius: 50%;
+  font-size: 1rem;
+  color: rgb(131, 22, 14);
+  font-weight: bold;
+  background-color: #ffc107;
+}
