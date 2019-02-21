@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  //An array of words
   var randWords = [
     "SAILBOAT",
     "POPSICLE",
@@ -128,49 +129,55 @@ $(document).ready(function() {
   var randWordIndex = -1;
   var startFlag = true;
 
+  // Function to generate a random word from the array
   function genRandWord() {
-    console.log("RandWords Length: " + randWords.length);
     randWordIndex = Math.floor(Math.random() * randWords.length + 1);
-    console.log("randWordIndex: " + randWordIndex);
     randWord = randWords[randWordIndex];
 
-    console.log("Word: " + randWord);
-
+    // Loop through the word to display empty boxes on the webpage
     for (var i = 0; i < randWord.length; i++) {
       var spanElem = $("<span>");
-      console.log("Inside Loop: " + randWord[i] + " " + i);
       spanElem.addClass("letter");
+      // Set the attribute value to the key pressed
       spanElem.attr("rand-letter", randWord[i]);
       $("#randWord").append(spanElem);
     }
   }
 
+  // This function is called when a letter present in the random word is pressed
   function correctGuessKey(guessKey) {
+    //Loop through each <span> element and fill the box where the attribute values matches the key pressed
     $("#randWord")
       .children("span")
       .each(function() {
         console.log("Attribute: " + $(this).attr("rand-letter"));
         if ($(this).attr("rand-letter") === guessKey) {
           $(this).text($(this).attr("rand-letter"));
+          // Increment the correctGuessCount inside this loop to keep track of the number of characters filled
           correctGuessCount++;
         }
       });
   }
 
+  // This function is called when a letter not present in the randam word is pressed
   function wrongGuessKey(guessKey) {
+    // This adds new element for each incorrect letter
     var spanElem = $("<span>");
     spanElem.addClass("wrongLetter");
     spanElem.text(guessKey);
     $("#guessChars").append(spanElem);
   }
 
+  // This function is to update the counters at the top of the webpage
   function updateCounters() {
     $("#winCount").text(winCount);
     $("#lossCount").text(lossCount);
     $("#guessCount").text(guessCount);
   }
 
-  function resetGame() {
+  // This function is to initialize all the variables and empty out the elements
+  // at the start of the game or user decides to play again
+  function initGame() {
     guessChars = [];
     correctGuessCount = 0;
     randWord = "";
@@ -186,40 +193,57 @@ $(document).ready(function() {
     }
   }
 
+  // This function is called everytime a key is pressed by the user
   $(document).keyup(function(e) {
     var guessKey = e.key.toUpperCase();
+
     if (startFlag) {
+      // This section is executed only at the beginning of the game
+      // when the user is asked to press any key to start
+      initGame();
       updateCounters();
-      resetGame();
       genRandWord();
       startFlag = false;
     } else {
-      if (!guessChars.includes(guessKey)) {
-        if (randWord.includes(guessKey)) {
-          console.log("Correct Key: " + guessKey);
-          correctGuessKey(guessKey);
+      // Checking if the pressed key is only alphabets
+      if (/[A-Z]/.test(guessKey)) {
+        // Checking if the pressed key has been pressed already
+        if (!guessChars.includes(guessKey)) {
+          // Checking if the pressed key is present in the random word
+          if (randWord.includes(guessKey)) {
+            // Call the function correctGuessKey to fill the boxes on the page
+            correctGuessKey(guessKey);
 
-          if (correctGuessCount === randWord.length) {
-            winCount++;
-            guessCount = 10;
+            // Check if all the boxes have been filled
+            if (correctGuessCount === randWord.length) {
+              winCount++;
+              guessCount = 10;
+              updateCounters();
+              initGame();
+            }
+          } else {
+            // Call the function wrongGuessKey to display the letters on the Webpage
+            wrongGuessKey(guessKey);
+            // Decrement the available guess counter
+            guessCount--;
             updateCounters();
-            resetGame();
+            // Check if the user has run out of chances
+            if (guessCount === 0) {
+              lossCount++;
+              guessCount = 10;
+              updateCounters();
+              initGame();
+            }
           }
+          // Add each key pressed to the array that is used to check if the key has been pressed already
+          guessChars.push(guessKey);
         } else {
-          console.log("Wrong Key: " + guessKey);
-          wrongGuessKey(guessKey);
-          guessCount--;
-          updateCounters();
-          if (guessCount === 0) {
-            lossCount++;
-            guessCount = 10;
-            updateCounters();
-            resetGame();
-          }
+          // When a key has been pressed already
+          alert("The key " + guessKey + " has been pressed already");
         }
-        guessChars.push(guessKey);
       } else {
-        alert("The key " + guessKey + " has been pressed already");
+        // When a non-alphabet is pressed
+        alert("Press any key between A and Z");
       }
     }
   });
