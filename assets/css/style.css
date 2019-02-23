@@ -2,14 +2,6 @@
   padding: 0;
 }
 
-.bgheader {
-  background: url("../images/word_bgimg2.jpeg");
-
-  background-position: top 38% center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
 .text {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-weight: 500;
@@ -18,7 +10,9 @@
 }
 
 .bgimg {
-  background: linear-gradient(rgba(231, 227, 176, 0.5), rgba(190, 177, 134, 1));
+  background: url("../images/Play.jpeg");
+  background-position: center;
+  background-size: cover;
   height: 100vh;
 }
 
@@ -27,22 +21,23 @@
   height: 2rem;
   padding: 1rem;
   margin: 2px;
-  border: 3px dashed rgb(131, 22, 14);
+  border: 3px solid #ffc107;
   font-size: 1rem;
   color: rgb(131, 22, 14);
   font-weight: bold;
+  background: linear-gradient(rgba(255, 193, 7, 0.3), rgba(255, 193, 7, 0.7));
 }
 
 .wrongLetter {
   width: 2rem;
   height: 2rem;
-  padding: 0.5rem;
+  padding: 1rem;
   margin: 2px;
   border: 3px solid #ffc107;
   border-radius: 50%;
   font-size: 1rem;
   color: rgb(131, 22, 14);
   font-weight: bold;
-  background-color: #ffc107;
+  background: linear-gradient(rgba(255, 193, 7, 0.5), rgba(255, 193, 7, 0.9));
   box-shadow: 1px 1px 1px rgb(131, 22, 14);
 }
