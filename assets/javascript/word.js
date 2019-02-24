@@ -193,6 +193,28 @@ $(document).ready(function() {
     }
   }
 
+  function showResult(result) {
+    $("#overlay").modal("show");
+    var sound = new Audio();
+    if (result === "lose") {
+      sound.src = "./assets/sound/Loser.mp3";
+      $(".modal-title").text("Loser!!");
+      $(".modal-body")
+        .children("p")
+        .text("Beat me if you can!!");
+    } else {
+      sound.src = "./assets/sound/WooHoo.mp3";
+      $(".modal-title").text("You Win!!");
+      $(".modal-body")
+        .children("p")
+        .text("Beat me again if you can!!");
+    }
+    sound.play();
+    setTimeout(function() {
+      $("#overlay").modal("hide");
+    }, 3000);
+  }
+
   // This function is called everytime a key is pressed by the user
   $(document).keyup(function(e) {
     var guessKey = e.key.toUpperCase();
@@ -219,6 +241,7 @@ $(document).ready(function() {
               winCount++;
               guessCount = 10;
               updateCounters();
+              showResult("win");
               initGame();
             }
           } else {
@@ -232,6 +255,7 @@ $(document).ready(function() {
               lossCount++;
               guessCount = 10;
               updateCounters();
+              showResult("lose");
               initGame();
             }
           }

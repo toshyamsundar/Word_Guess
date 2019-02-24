@@ -16,13 +16,13 @@
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://code.jquery.com/jquery-3.3.1.js"
-      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="./assets/css/style.css" type="text/css" />
@@ -69,7 +69,20 @@
       </div>
       <div class="row text-center mt-5 mx-0 pt-4">
         <div class="column col-12">
-          <h5 class="text-warning" id="footer">Press any key to conitnue</h5>
+          <h3 class="text-warning" id="footer">Press any key to play</h3>
+        </div>
+      </div>
+      <div class="modal fade" id="overlay">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content modal-bg">
+            <div class="modal-header border-bottom-0 text-center">
+              <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+              <h4 class="modal-title text w-100"></h4>
+            </div>
+            <div class="modal-body text-center">
+              <p class="text"></p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
