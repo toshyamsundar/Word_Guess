@@ -199,7 +199,7 @@ $(document).ready(function() {
     hintFlag = false;
 
     $("#guessChars").empty();
-    $("#footer").text("Press SPACE-BAR for hint");
+    $("#footer").text("Press SPACE-BAR for HINT");
     $("#randWord").empty();
 
     if (!startFlag) {
@@ -209,7 +209,6 @@ $(document).ready(function() {
   }
 
   function addElem(elTag, elClass, elText) {
-    console.log(elTag + " " + elClass + " " + elText);
     var newElem = $(elTag);
     newElem.text(elText);
     $(elClass).append(newElem);
@@ -255,8 +254,10 @@ $(document).ready(function() {
     }, 2000);
   }
 
+  // This function will give when SPACE-BAR is pressed
   function showHint() {
-    $("#footer").empty();
+    $("#footer").text("Isn't it easy-peasy now?");
+    // Pick a letter randomly fro hint
     var hintKey = randWord[Math.floor(Math.random() * randWord.length + 1)];
     guessCount--;
     updateCounters();
@@ -264,6 +265,7 @@ $(document).ready(function() {
     hintFlag = true;
   }
 
+  // This function is to display the rules of the game
   function showRules() {
     $(".modal-title").text("Rules!");
     for (var i = 0; i < gameRules.length; i++) {
@@ -272,13 +274,14 @@ $(document).ready(function() {
 
     $("#overlay").modal("show");
 
-    // Hide the dialog after 2 seconds
+    // Hide the dialog after 25 seconds
     setTimeout(function() {
       $("#overlay").modal("hide");
       $(".modal-body").empty();
-    }, 30000);
+    }, 25000);
   }
 
+  // Call the function to display the rules as soon as the page loads
   showRules();
 
   // This function is called everytime a key is pressed by the user
