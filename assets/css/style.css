@@ -45,4 +45,7 @@
 .modal-bg {
   background: linear-gradient(rgba(255, 193, 7, 0.5), rgba(255, 193, 7, 0.9));
   border: 3px solid #ffc107;
+  color: darkred;
+  font-weight: Bold;
+  font-size: large;
 }

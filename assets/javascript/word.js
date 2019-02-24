@@ -120,6 +120,18 @@ $(document).ready(function() {
     "DESK"
   ];
 
+  var gameRules = [
+    "Press any key to start the game",
+    "Press keys A to Z to guess the word",
+    "Do not press any key more than once",
+    "You get 10 chances to guess the word correctly",
+    "If you guess correctly, your win",
+    "Otherwise, you lose",
+    "If you can't do it yourself, press SPACE-BAR for a hint and just once",
+    "Of course, you lose a chance. Help isn't free",
+    "NOW CLOSE THIS & START PLAYING!!"
+  ];
+
   var winCount = 0;
   var lossCount = 0;
   var guessCount = 10;
@@ -128,6 +140,8 @@ $(document).ready(function() {
   var randWord = "";
   var randWordIndex = -1;
   var startFlag = true;
+  var errMessage = "";
+  var hintFlag = false;
 
   // Function to generate a random word from the array
   function genRandWord() {
@@ -150,7 +164,6 @@ $(document).ready(function() {
     $("#randWord")
       .children("span")
       .each(function() {
-        console.log("Attribute: " + $(this).attr("rand-letter"));
         if ($(this).attr("rand-letter") === guessKey) {
           $(this).text($(this).attr("rand-letter"));
           // Increment the correctGuessCount inside this loop to keep track of the number of characters filled
@@ -182,9 +195,11 @@ $(document).ready(function() {
     correctGuessCount = 0;
     randWord = "";
     randWordIndex = -1;
+    errMessage = "";
+    hintFlag = false;
 
     $("#guessChars").empty();
-    $("#footer").empty();
+    $("#footer").text("Press SPACE-BAR for hint");
     $("#randWord").empty();
 
     if (!startFlag) {
@@ -193,31 +208,83 @@ $(document).ready(function() {
     }
   }
 
+  function addElem(elTag, elClass, elText) {
+    console.log(elTag + " " + elClass + " " + elText);
+    var newElem = $(elTag);
+    newElem.text(elText);
+    $(elClass).append(newElem);
+  }
+
+  // This function is to displays a modal to show the results
+  // It automatically closes after 3 seconds.
   function showResult(result) {
-    $("#overlay").modal("show");
     var sound = new Audio();
+
+    // Play a different sound in case of lose and win
+    // Display differnt messages as well
     if (result === "lose") {
       sound.src = "./assets/sound/Loser.mp3";
       $(".modal-title").text("Loser!!");
-      $(".modal-body")
-        .children("p")
-        .text("Beat me if you can!!");
+      addElem("<p>", ".modal-body", "Beat me if you can!");
     } else {
       sound.src = "./assets/sound/WooHoo.mp3";
       $(".modal-title").text("You Win!!");
-      $(".modal-body")
-        .children("p")
-        .text("Beat me again if you can!!");
+      addElem("<p>", ".modal-body", "Beat me again if you can!");
     }
+    // Show the dialog & play the sound
+    $("#overlay").modal("show");
     sound.play();
+
+    // Hide the dialog after 3 seconds
     setTimeout(function() {
       $("#overlay").modal("hide");
+      $(".modal-body").empty();
     }, 3000);
   }
+
+  // This function is to display error messages
+  function showError(err) {
+    $(".modal-title").text("Read the rules, Genius!");
+    addElem("<p>", ".modal-body", err);
+    $("#overlay").modal("show");
+
+    // Hide the dialog after 2 seconds
+    setTimeout(function() {
+      $("#overlay").modal("hide");
+      $(".modal-body").empty();
+    }, 2000);
+  }
+
+  function showHint() {
+    $("#footer").empty();
+    var hintKey = randWord[Math.floor(Math.random() * randWord.length + 1)];
+    guessCount--;
+    updateCounters();
+    correctGuessKey(hintKey);
+    hintFlag = true;
+  }
+
+  function showRules() {
+    $(".modal-title").text("Rules!");
+    for (var i = 0; i < gameRules.length; i++) {
+      addElem("<p>", ".modal-body", gameRules[i]);
+    }
+
+    $("#overlay").modal("show");
+
+    // Hide the dialog after 2 seconds
+    setTimeout(function() {
+      $("#overlay").modal("hide");
+      $(".modal-body").empty();
+    }, 30000);
+  }
+
+  showRules();
 
   // This function is called everytime a key is pressed by the user
   $(document).keyup(function(e) {
     var guessKey = e.key.toUpperCase();
+    var guessKeyCode = e.keyCode;
 
     if (startFlag) {
       // This section is executed only at the beginning of the game
@@ -226,9 +293,10 @@ $(document).ready(function() {
       updateCounters();
       genRandWord();
       startFlag = false;
+      $(".modal-body").empty();
     } else {
       // Checking if the pressed key is only alphabets
-      if (/[A-Z]/.test(guessKey)) {
+      if (guessKeyCode >= 65 && guessKeyCode <= 90) {
         // Checking if the pressed key has been pressed already
         if (!guessChars.includes(guessKey)) {
           // Checking if the pressed key is present in the random word
@@ -240,8 +308,9 @@ $(document).ready(function() {
             if (correctGuessCount === randWord.length) {
               winCount++;
               guessCount = 10;
-              updateCounters();
+
               showResult("win");
+              updateCounters();
               initGame();
             }
           } else {
@@ -254,8 +323,8 @@ $(document).ready(function() {
             if (guessCount === 0) {
               lossCount++;
               guessCount = 10;
-              updateCounters();
               showResult("lose");
+              updateCounters();
               initGame();
             }
           }
@@ -263,11 +332,21 @@ $(document).ready(function() {
           guessChars.push(guessKey);
         } else {
           // When a key has been pressed already
-          alert("The key " + guessKey + " has been pressed already");
+          errMessage = "The key " + guessKey + " has been pressed already";
+          showError(errMessage);
+        }
+      } else if (guessKeyCode === 32) {
+        // Show hint key just once
+        if (!hintFlag) {
+          showHint();
+          hintFlag = true;
+        } else {
+          showError("One hint is too many");
         }
       } else {
         // When a non-alphabet is pressed
-        alert("Press any key between A and Z");
+        errMessage = "Press any key between A and Z";
+        showError(errMessage);
       }
     }
   });
