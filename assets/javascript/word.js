@@ -145,7 +145,7 @@ $(document).ready(function() {
 
   // Function to generate a random word from the array
   function genRandWord() {
-    randWordIndex = Math.floor(Math.random() * randWords.length + 1);
+    randWordIndex = Math.floor(Math.random() * randWords.length);
     randWord = randWords[randWordIndex];
 
     // Loop through the word to display empty boxes on the webpage
@@ -254,15 +254,27 @@ $(document).ready(function() {
     }, 2000);
   }
 
-  // This function will give when SPACE-BAR is pressed
+  // This function will give a hint when SPACE-BAR is pressed
   function showHint() {
-    $("#footer").text("Isn't it easy-peasy now?");
-    // Pick a letter randomly fro hint
-    var hintKey = randWord[Math.floor(Math.random() * randWord.length + 1)];
-    guessCount--;
-    updateCounters();
-    correctGuessKey(hintKey);
-    hintFlag = true;
+    // Pick a letter randomly for hint
+    var hintKeyIndex = Math.floor(Math.random() * randWord.length);
+    var hintKey = randWord[hintKeyIndex];
+    console.log("Word: " + randWord);
+    console.log("Hint Key " + hintKey);
+    // Check If the hint key appears only once. Do not want to give away more than 1 key as hint
+    if (randWord.indexOf(hintKey) === randWord.lastIndexOf(hintKey)) {
+      console.log("Inside 1");
+      $("#footer").text("Isn't it easy-peasy now?");
+      guessCount--;
+      updateCounters();
+      correctGuessKey(hintKey);
+      guessChars.push(hintKey);
+      hintFlag = true;
+    } else {
+      // Call the function again to generate random hint key
+      console.log("Inside 2");
+      showHint();
+    }
   }
 
   // This function is to display the rules of the game
